@@ -9,7 +9,7 @@ env:
 jobs:
   Feature-Branch-Commit:
     #if: ${{ GITHUB.event_name != 'pull_request' }}
-    if: ${{ startsWith(current_branch,'main') && GITHUB.event_name == 'push'}}
+    if: ${{ startsWith(GITHUB.ref_name,'main') && GITHUB.event_name == 'push'}}
     uses: eldeekhowong/shared-workflows/.github/workflows/build-test.yml@main
     secrets: inherit
     with:
