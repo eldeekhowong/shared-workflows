@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  Run-Tests:
+  Feature-Branch-Commit:
     if: ${{ GITHUB.event_name != 'pull_request' }}
     uses: eldeekhowong/shared-workflows/.github/workflows/build-test.yml@main
     secrets: inherit
