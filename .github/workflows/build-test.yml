@@ -9,8 +9,7 @@ on:
         type: string
         default: 'test'
 
-env:
-  current_branch: ${{ github.ref_name }} 
+
 jobs:
   Run-Tests:
     runs-on: self-hosted

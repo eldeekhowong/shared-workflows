@@ -1,12 +1,16 @@
-name: Main Configuration file for orchestration of pipeline
+name: EITS Mule Pipeline
 
 on:
   workflow_call:
 
+env:
+  current_branch: ${{ github.ref_name }} 
+
 jobs:
   Feature-Branch-Commit:
-    if: ${{ GITHUB.event_name != 'pull_request' }}
+    #if: ${{ GITHUB.event_name != 'pull_request' }}
+    if: ${{ startsWith(current_branch,'main') && GITHUB.event_name == 'push'}}
     uses: eldeekhowong/shared-workflows/.github/workflows/build-test.yml@main
     secrets: inherit
     with:
-      build-test: 'build'
+      build-test: 'test'
