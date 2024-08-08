@@ -8,3 +8,5 @@ jobs:
     if: ${{ GITHUB.event_name != 'pull_request' }}
     uses: eldeekhowong/shared-workflows/.github/workflows/build-test.yml@main
     secrets: inherit
+    with:
+      build-test: 'build'
