@@ -13,4 +13,13 @@ jobs:
     uses: eldeekhowong/shared-workflows/.github/workflows/build-test.yml@main
     secrets: inherit
     with:
-      build-test: 'test'
+      build-test: 'test-only'
+
+jobs:
+  Develop-Merge:
+    #if: ${{ GITHUB.event_name != 'pull_request' }}
+    if: ${{ GITHUB.ref_name == 'develop' && GITHUB.event_name == 'pull_request'}}
+    uses: eldeekhowong/shared-workflows/.github/workflows/build-test.yml@main
+    secrets: inherit
+    with:
+      build-test: 'build'
