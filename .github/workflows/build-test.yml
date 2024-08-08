@@ -27,7 +27,7 @@ jobs:
     - name: Build with Maven
 #      run: mvn -B clean test --file pom.xml
       run: echo "$current_branch"
-           echo startsWith($current_branch,"blah")
+#           echo startsWith($current_branch,"blah")
     
     
   Build-Package:
