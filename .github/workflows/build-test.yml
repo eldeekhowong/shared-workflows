@@ -8,6 +8,11 @@ on:
         required: false
         type: string
         default: 'test'
+      code-coverage-required:
+        description: Specify whether code coverage is required for maven to succeed
+        required: false
+        type: boolean
+        default: true
 
 
 jobs:
@@ -24,7 +29,7 @@ jobs:
  #       restore-keys: |
  #         ${{ runner.os }}-maven-
     - name: Build with Maven
-      run: mvn -B clean test --file pom.xml
+      run: mvn -B clean test -DcodeCoverageRequired=${{code-coverage-required}} --file pom.xml
 #      run: echo ${{GITHUB.ref_name}}
     
     
@@ -43,7 +48,7 @@ jobs:
 #        restore-keys: |
 #          ${{ runner.os }}-maven-
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package -DcodeCoverageRequired=${{code-coverage-required}} --file pom.xml
     - name: Stamp artifact file name with commit hash
       run: |
         artifactName1=$(ls target/*.jar | head -1)
