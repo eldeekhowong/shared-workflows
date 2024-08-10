@@ -17,5 +17,5 @@ jobs:
     uses: eldeekhowong/shared-workflows/.github/workflows/build-test.yml@main
     secrets: inherit
     with:
-      build-test: 'build':
+      build-test: 'build'
       code-coverage-required: true
