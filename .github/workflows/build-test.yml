@@ -29,7 +29,7 @@ jobs:
  #       restore-keys: |
  #         ${{ runner.os }}-maven-
     - name: Build with Maven
-      run: mvn -B clean test -DcodeCoverageRequired=${{code-coverage-required}} --file pom.xml
+      run: mvn -B clean test -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
 #      run: echo ${{GITHUB.ref_name}}
     
     
@@ -48,7 +48,7 @@ jobs:
 #        restore-keys: |
 #          ${{ runner.os }}-maven-
     - name: Build with Maven
-      run: mvn -B package -DcodeCoverageRequired=${{code-coverage-required}} --file pom.xml
+      run: mvn -B package -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
     - name: Stamp artifact file name with commit hash
       run: |
         artifactName1=$(ls target/*.jar | head -1)
