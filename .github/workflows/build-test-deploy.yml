@@ -3,7 +3,7 @@ name: Build and Deploy to Sandbox
 on:
   workflow_call:
     inputs:
-      build-test: 
+      build-test-deploy: 
         description: Specify whether you would like to build the jar file or just run unit tests
         required: false
         type: string
@@ -34,7 +34,7 @@ jobs:
     
     
   Build-Package:
-    if: ${{ inputs.build-test == 'build' }}
+    if: ${{ inputs.build-test-deploy == 'build' || inputs.build-test-deploy == 'deploy' }}
     needs: Run-Tests
     runs-on: self-hosted
     steps:
@@ -47,7 +47,25 @@ jobs:
 #        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
 #        restore-keys: |
 #          ${{ runner.os }}-maven-
-    - name: Build with Maven and deploy package to Artifactory
+    - name: Build with Maven
+      run: mvn -B clean test -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
+
+
+  Deploy-Package:
+    if: ${{ inputs.build-test-deploy == 'deploy' }}
+    needs: Build-Package
+    runs-on: self-hosted
+    steps:
+#    - name: Checkout this repo
+#      uses: actions/checkout@v3
+#    - name: Cache dependencies
+#      uses: actions/cache@v3
+#      with:
+#        path: ~/.m2/repository
+#        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+#        restore-keys: |
+#          ${{ runner.os }}-maven-
+    - name: Deploy package to Artifactory
       run: mvn -B deploy -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
     - name: Deploy to Runtime Manager
       env:

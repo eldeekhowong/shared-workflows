@@ -6,16 +6,24 @@ on:
 jobs:
   Feature-Branch-Commit:
     if: ${{ startsWith(GITHUB.ref_name,'feature/') && GITHUB.event_name == 'push'}}
-    uses: eldeekhowong/shared-workflows/.github/workflows/build-test.yml@main
+    uses: eldeekhowong/shared-workflows/.github/workflows/build-test-deploy.yml@main
     secrets: inherit
     with:
-      build-test: 'test-only'
+      build-test-deploy: 'test'
+      code-coverage-required: false
+
+  Develop-PR:
+    if: ${{ GITHUB.base_ref == 'develop' && GITHUB.event_name == 'pull_request'}}
+    uses: eldeekhowong/shared-workflows/.github/workflows/build-test-deploy.yml@main
+    secrets: inherit
+    with:
+      build-test-deploy: 'build'
       code-coverage-required: false
 
   Develop-Merge:
-    if: ${{ GITHUB.base_ref == 'develop' && GITHUB.event_name == 'pull_request'}}
-    uses: eldeekhowong/shared-workflows/.github/workflows/build-test.yml@main
+    if: ${{ GITHUB.ref_name == 'develop' && GITHUB.event_name == 'push'}}
+    uses: eldeekhowong/shared-workflows/.github/workflows/build-test-deploy.yml@main
     secrets: inherit
     with:
-      build-test: 'build'
+      build-test-deploy: 'deploy'
       code-coverage-required: false
