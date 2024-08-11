@@ -21,9 +21,18 @@ jobs:
       code-coverage-required: false
 
   Develop-Merge:
-    if: ${{ GITHUB.base_ref == 'develop' && GITHUB.event.pull_request.merged == true}}
-    uses: eldeekhowong/shared-workflows/.github/workflows/build-test-deploy.yml@main
-    secrets: inherit
-    with:
-      build-test-deploy: 'deploy'
-      code-coverage-required: false
+#    if: ${{ GITHUB.base_ref == 'develop' && GITHUB.event.pull_request.merged == true}}
+#    uses: eldeekhowong/shared-workflows/.github/workflows/build-test-deploy.yml@main
+ #   secrets: inherit
+  #  with:
+   #   build-test-deploy: 'deploy'
+    #  code-coverage-required: false
+    steps:
+      - name: test
+        run: |
+              echo "HELLO"
+              echo ${{GITHUB.ref_name}}
+              echo ${{GITHUB.base_ref}}
+              echo ${{GITHUB.event_name}}
+              echo ${{GITHUB.event.pull_request.merged}}
+              echo "GOODBYE"
