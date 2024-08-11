@@ -32,10 +32,10 @@ jobs:
       uses: actions/checkout@v4
       with: 
         repository: "eldeekhowong/shared-workflows"
+        path: "shared-workflows"
         sparse-checkout: "maven/eits_mulesoft_settings.xml"
-        sparse-checkout-cone-mode: false
     - name: Build with Maven
-      run: mvn -B -s maven/eits_mulesoft_settings.xml clean test -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
+      run: mvn -B -s ../shared-workflows/maven/eits_mulesoft_settings.xml clean test -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
 #      run: echo ${{GITHUB.ref_name}}
     
     
@@ -54,7 +54,7 @@ jobs:
 #        restore-keys: |
 #          ${{ runner.os }}-maven-
     - name: Build with Maven
-      run: mvn -B -s maven/eits_mulesoft_settings.xml package -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
+      run: mvn -B -s ../shared-workflows/maven/eits_mulesoft_settings.xml package -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
 
 
   Deploy-Package:
@@ -79,7 +79,7 @@ jobs:
         CLIENT_SECRET: ${{ secrets.anypoint_platform_client_secret }}
       run: |
         artifactName=$(ls target/*.jar | head -1)
-        mvn -B -s maven/eits_mulesoft_settings.xml deploy -DmuleDeploy -Danypoint.client_id="$CLIENT_ID" -Danypoint.client_secret="$CLIENT_SECRET" -Dmule.artifact=$artifactName
+        mvn -B -s ../shared-workflows/maven/eits_mulesoft_settings.xml deploy -DmuleDeploy -Danypoint.client_id="$CLIENT_ID" -Danypoint.client_secret="$CLIENT_SECRET" -Dmule.artifact=$artifactName
 
 #    - name: Stamp artifact file name with commit hash
 #      run: |
