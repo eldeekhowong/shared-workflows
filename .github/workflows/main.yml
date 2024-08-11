@@ -27,6 +27,7 @@ jobs:
   #  with:
    #   build-test-deploy: 'deploy'
     #  code-coverage-required: false
+    runs-on: self-hosted
     steps:
       - name: test
         run: |
