@@ -21,7 +21,7 @@ jobs:
       code-coverage-required: false
 
   Develop-Merge:
-    if: ${{ GITHUB.ref_name == 'develop' && GITHUB.event.pull_request.merged == true}}
+    if: ${{ GITHUB.base_ref == 'develop' && GITHUB.event.pull_request.merged == true}}
     uses: eldeekhowong/shared-workflows/.github/workflows/build-test-deploy.yml@main
     secrets: inherit
     with:
