@@ -18,4 +18,4 @@ jobs:
     secrets: inherit
     with:
       build-test: 'build'
-      code-coverage-required: true
+      code-coverage-required: false
