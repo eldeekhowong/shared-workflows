@@ -138,7 +138,12 @@ under the License.
       <password>cmVmdGtuOjAxOjE3NTQ3OTk5Njg6WHF5TlFCQ2pTT050bTNpN2RYd25QR1E1VVN2</password>
     </server>
     <server>
-      <id>eits-mule-projects</id>
+      <id>eits-mule-project-snapshots</id>
+      <username>eldee.khowong@afs.com</username>
+      <password>cmVmdGtuOjAxOjE3NTQ3OTk5Njg6WHF5TlFCQ2pTT050bTNpN2RYd25QR1E1VVN2</password>
+    </server>
+    <server>
+      <id>eits-mule-project-releases</id>
       <username>eldee.khowong@afs.com</username>
       <password>cmVmdGtuOjAxOjE3NTQ3OTk5Njg6WHF5TlFCQ2pTT050bTNpN2RYd25QR1E1VVN2</password>
     </server>
@@ -180,7 +185,7 @@ under the License.
       <id>eits-mulesoft-artifacts</id>
       <name>Internal Artifactory Repository</name>
       <url>https://ektest.jfrog.io/artifactory/eits-mulesoft-artifacts</url>
-      <mirrorOf>*</mirrorOf>
+      <mirrorOf>*,!eits-mule-project-snapshots,!eits-mule-project-releases</mirrorOf>
     </mirror>
   </mirrors>
 
@@ -279,6 +284,16 @@ under the License.
         <repository>
           <id>eits-mulesoft-artifacts</id>
           <url>https://ektest.jfrog.io/artifactory/eits-mulesoft-artifacts</url>
+          <layout>default</layout>
+        </repository>
+        <repository>
+          <id>eits-mule-project-snapshots</id>
+          <url>https://ektest.jfrog.io/artifactory/eits-mule-project-snapshots</url>
+          <layout>default</layout>
+        </repository>
+        <repository>
+          <id>eits-mule-project-releases</id>
+          <url>https://ektest.jfrog.io/artifactory/eits-mule-project-releases</url>
           <layout>default</layout>
         </repository>
       </repositories>
