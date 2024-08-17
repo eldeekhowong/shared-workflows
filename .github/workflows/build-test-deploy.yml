@@ -67,8 +67,8 @@ jobs:
       uses: actions/github-script@v7
       with:
         script: |
-          commitTag = $(ls target/*.jar | head -1 | awk '{print substr($1,length($1)-50,21)}')
-          echo $commitTag
+#          commitTag = $(ls target/*.jar | head -1 | awk '{print substr($1,length($1)-50,21)}')
+ #         echo $commitTag
           github.rest.git.createRef({
             owner: context.repo.owner,
             repo: context.repo.repo,
