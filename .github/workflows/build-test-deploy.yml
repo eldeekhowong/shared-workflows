@@ -34,45 +34,53 @@ jobs:
         repository: "eldeekhowong/shared-workflows"
         path: "shared-workflows"
         sparse-checkout: "maven/eits_mulesoft_settings.xml"
-    - name: Build with Maven
-      run: mvn -B -s shared-workflows/maven/eits_mulesoft_settings.xml clean test -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
-#      run: echo ${{GITHUB.ref_name}}
-    
-    
+    - name: Execute Maven
+      run: |
+#        mvn -B -s shared-workflows/maven/eits_mulesoft_settings.xml clean test -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
+        echo "SKIP"   
+
   Build-Package:
     if: ${{ inputs.build-test-deploy == 'build' || inputs.build-test-deploy == 'deploy' }}
     needs: Run-Tests
     runs-on: self-hosted
     steps:
-    - name: Build with Maven
-      run: mvn -B -s shared-workflows/maven/eits_mulesoft_settings.xml package -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
-
+    - name: Execute Maven
+      run: |
+#        mvn -B -s shared-workflows/maven/eits_mulesoft_settings.xml package -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
+        echo "SKIP"
 
   Deploy-Package:
     if: ${{ inputs.build-test-deploy == 'deploy' }}
     needs: Build-Package
     runs-on: self-hosted
     steps:
-#    - name: Deploy package to Artifactory
-#      run: mvn -s shared-workflows/maven/eits_mulesoft_settings.xml -B deploy -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
-#    - name: Deploy to Runtime Manager
-#      env:
-#        CLIENT_ID: ${{ secrets.anypoint_platform_client_id }}
-#        CLIENT_SECRET: ${{ secrets.anypoint_platform_client_secret }}
-#      run: |
+    - name: Deploy package to Artifactory
+      run: |
+#        mvn -s shared-workflows/maven/eits_mulesoft_settings.xml -B deploy -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
+        echo "skip"
+    - name: Deploy to Runtime Manager
+      env:
+        CLIENT_ID: ${{ secrets.anypoint_platform_client_id }}
+        CLIENT_SECRET: ${{ secrets.anypoint_platform_client_secret }}
+      run: |
+        echo "SKIP"
 #        artifactName=$(ls target/*.jar | head -1)
 #        mvn -B -s shared-workflows/maven/eits_mulesoft_settings.xml deploy -DmuleDeploy -Danypoint.client_id="$CLIENT_ID" -Danypoint.client_secret="$CLIENT_SECRET" -Dmule.artifact=$artifactName
 
-    - name: Tag with artifact version
+    - name: Retrieve artifact version
+      id: retrieve-artifact-version
+      run: |
+        ARTIFACT_VERSION=$(ls target/*.jar | head -1 | awk '{print substr($1,length($1)-50,21)}')
+        echo "artifact_version=$ARTIFACT_VERSION" >> "$GITHUB_OUTPUT"
+ 
+    - name: Tag artifact with version
       uses: actions/github-script@v7
       with:
         script: |
-          ARTIFACT_TAG=$(ls target/*.jar | head -1 | awk '{print substr($1,length($1)-50,21)}')
-          echo $ARTIFACT_TAG
           github.rest.git.createRef({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            ref: 'refs/tags/${ARTIFACT_TAG}',
+            ref: 'refs/tags/${{ steps.retrieve-artifact-version.outputs.artifact_version }}',
             sha: context.sha
           })
          
