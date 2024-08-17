@@ -67,10 +67,11 @@ jobs:
       uses: actions/github-script@v7
       with:
         script: |
+          const {ARTIFACT_TAG} = $(ls target/*.jar | head -1 | awk '{print substr($1,length($1)-50,21)}')
           github.rest.git.createRef({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            ref: 'refs/tags/EKTESTTAG',
+            ref: 'refs/tags/${ARTIFACT_TAG}',
             sha: context.sha
           })
          
