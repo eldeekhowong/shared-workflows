@@ -54,7 +54,7 @@ jobs:
     runs-on: self-hosted
     steps:
     - name: Deploy package to Artifactory
-      run: mvn -B deploy -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
+      run: mvn -s shared-workflows/maven/eits_mulesoft_settings.xml -B deploy -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
     - name: Deploy to Runtime Manager
       env:
         CLIENT_ID: ${{ secrets.anypoint_platform_client_id }}
