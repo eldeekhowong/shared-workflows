@@ -65,7 +65,7 @@ jobs:
 
 
   Run-Tests:
-    if: ${{ inputs.build-test-deploy == 'test' || inputs.build-test-deploy == 'build' || inputs.build-test-deploy == 'deploy' }}
+    if: ${{ inputs.build-test-deploy == 'test' || inputs.build-test-deploy == 'build' || inputs.build-test-deploy == 'deploy' || inputs.build-test-deploy == 'promote'}}
     needs: Checkout-Repo
     runs-on: self-hosted
     steps:
