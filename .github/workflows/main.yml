@@ -4,15 +4,15 @@ on:
   workflow_call:
 
 jobs:
-#  Feature-Branch-Commit22:
-#    if: ${{ startsWith(GITHUB.ref_name,'feature/') && GITHUB.event_name == 'push'}}
-#    uses: eldeekhowong/shared-workflows/.github/workflows/build-test-deploy.yml@main
-#    secrets: inherit
-#    with:
-#      build-test-deploy: 'deploy'
-#      code-coverage-required: false
+  Feature-Branch-Commit22:
+    if: ${{ startsWith(GITHUB.ref_name,'feature/') && GITHUB.event_name == 'push'}}
+    uses: eldeekhowong/shared-workflows/.github/workflows/build-test-deploy.yml@main
+    secrets: inherit
+    with:
+      build-test-deploy: 'deploy'
+      code-coverage-required: false
 
-  Develop-PR22:
+  Develop-PR:
     if: ${{ GITHUB.base_ref == 'develop' && GITHUB.event_name == 'pull_request'}}
     uses: eldeekhowong/shared-workflows/.github/workflows/build-test-deploy.yml@main
     secrets: inherit
@@ -20,7 +20,7 @@ jobs:
       build-test-deploy: 'build'
       code-coverage-required: false
 
-  Develop-Merge222:
+  Develop-Merge:
     if: ${{ GITHUB.base_ref == 'develop' && GITHUB.event.pull_request.merged == true}}
     uses: eldeekhowong/shared-workflows/.github/workflows/build-test-deploy.yml@main
     secrets: inherit
@@ -28,8 +28,8 @@ jobs:
       build-test-deploy: 'deploy'
       code-coverage-required: false
 
-  Promote-Build-Action333:
-    if: ${{ GITHUB.event_name == 'workflow_dispatch'}}
+  Promote-Build-Action:
+    if: ${{ inputs.action == 'Promote' && GITHUB.event_name == 'workflow_dispatch'}}
     uses: eldeekhowong/shared-workflows/.github/workflows/build-test-deploy.yml@main
     secrets: inherit
     with:
