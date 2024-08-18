@@ -37,8 +37,7 @@ jobs:
     - name: Checkout this repo
       if: ${{ inputs.tag == '' }}
       uses: actions/checkout@v4
-      
-    - name: Checkout this tags
+    - name: Checkout specific tag
       if: ${{ inputs.tag != '' }}
       uses: actions/checkout@v4
       with:
