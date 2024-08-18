@@ -77,6 +77,7 @@ jobs:
       env:
         CLIENT_ID: ${{ secrets.anypoint_platform_client_id }}
         CLIENT_SECRET: ${{ secrets.anypoint_platform_client_secret }}
+        ANYPOINT_ENV: ${{ inputs.muleEnv }}
       run: |
         artifactName=$(ls target/*.jar | head -1)
         mvn -B -s shared-workflows/maven/eits_mulesoft_settings.xml deploy -DmuleDeploy -Danypoint.client_id="$CLIENT_ID" -Danypoint.client_secret="$CLIENT_SECRET" -Dmule.artifact=$artifactName -Danypoint.muleEnv="$ANYPOINT_ENV"
