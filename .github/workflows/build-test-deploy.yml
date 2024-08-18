@@ -39,6 +39,7 @@ jobs:
         echo '${{inputs.tag}}'
         echo '${{inputs.artifactGroup}}'
         echo '${{inputs.muleEnv}}'
+        echo '${{inputs.build-test-deploy}}'
     - name: Checkout this repo
       if: ${{ inputs.tag == '' }}
       uses: actions/checkout@v4
@@ -122,7 +123,7 @@ jobs:
 
   Promote-Build:
     if: ${{ inputs.build-test-deploy == 'promote' }}
-    needs: [Checkout-Repo, Build-Package]
+    needs: Build-Package
     runs-on: self-hosted
     steps:
     - name: Deploy to Runtime Manager
