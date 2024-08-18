@@ -29,7 +29,7 @@ jobs:
       code-coverage-required: false
 
   Promote-Build-Action:
-    if: ${{ GITHUB.event_name == 'workflow_dispatch'}}
+#    if: ${{ GITHUB.event_name == 'workflow_dispatch'}}
     uses: eldeekhowong/shared-workflows/.github/workflows/build-test-deploy.yml@main
     secrets: inherit
     with:
