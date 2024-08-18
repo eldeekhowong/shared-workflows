@@ -4,13 +4,13 @@ on:
   workflow_call:
 
 jobs:
-  Feature-Branch-Commit22:
-    if: ${{ startsWith(GITHUB.ref_name,'feature/') && GITHUB.event_name == 'push'}}
-    uses: eldeekhowong/shared-workflows/.github/workflows/build-test-deploy.yml@main
-    secrets: inherit
-    with:
-      build-test-deploy: 'deploy'
-      code-coverage-required: false
+#  Feature-Branch-Commit22:
+#    if: ${{ startsWith(GITHUB.ref_name,'feature/') && GITHUB.event_name == 'push'}}
+#    uses: eldeekhowong/shared-workflows/.github/workflows/build-test-deploy.yml@main
+#    secrets: inherit
+#    with:
+#      build-test-deploy: 'deploy'
+#      code-coverage-required: false
 
   Develop-PR22:
     if: ${{ GITHUB.base_ref == 'develop' && GITHUB.event_name == 'pull_request'}}
