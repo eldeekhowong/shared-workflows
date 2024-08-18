@@ -65,25 +65,21 @@ jobs:
       run: mvn -B -s shared-workflows/maven/eits_mulesoft_settings.xml package -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
 
 
-  Deploy-Package:
+  Upload-Package-Artifactory:
     if: ${{ inputs.build-deploy-promote == 'deploy' }}
     needs: Build-Package
     runs-on: self-hosted
     steps:
     - name: Deploy package to Artifactory
-      run: mvn -s shared-workflows/maven/eits_mulesoft_settings.xml -B deploy -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
+      run: mvn -s shared-workflows/maven/eits_mulesoft_settings.xml -B deploy -DskipTests -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
 
-    - name: Deploy to Runtime Manager
-      env:
-        CLIENT_ID: ${{ secrets.anypoint_platform_client_id }}
-        CLIENT_SECRET: ${{ secrets.anypoint_platform_client_secret }}
-        ANYPOINT_ENV: ${{ inputs.muleEnv }}
-      run: |
-        artifactName=$(ls target/*.jar | head -1)
-        mvn -B -s shared-workflows/maven/eits_mulesoft_settings.xml deploy -DmuleDeploy -Danypoint.client_id="$CLIENT_ID" -Danypoint.client_secret="$CLIENT_SECRET" -Dmule.artifact=$artifactName -Danypoint.muleEnv="$ANYPOINT_ENV"
 
-    - name: Retrieve artifact version
-      id: retrieve-artifact-version
+  Tag-Artifact:
+    if: ${{ inputs.build-deploy-promote == 'deploy' }}
+    needs: Build-Package
+    steps:
+    - name: Extract artifact version
+      id: extract-artifact-version
       run: |
         ARTIFACT_VERSION=$(ls target/*.jar | head -1 | awk '{print substr($1,length($1)-50,21)}')
         echo "ARTIFACT_VERSION=$ARTIFACT_VERSION" >> "$GITHUB_OUTPUT"
@@ -95,13 +91,13 @@ jobs:
           github.rest.git.createRef({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            ref: 'refs/tags/${{ steps.retrieve-artifact-version.outputs.ARTIFACT_VERSION }}',
+            ref: 'refs/tags/${{ steps.extract-artifact-version.outputs.ARTIFACT_VERSION }}',
             sha: context.sha
           })
 
 
-  Promote-Build:
-    if: ${{ inputs.build-deploy-promote == 'promote' }}
+  Deploy-Package-Anypoint:
+    if: ${{ inputs.build-deploy-promote == 'deploy' || inputs.build-deploy-promote == 'promote'}}
     needs: Build-Package
     runs-on: self-hosted
     steps:
@@ -112,4 +108,4 @@ jobs:
         ANYPOINT_ENV: ${{ inputs.muleEnv }}
       run: |
         artifactName=$(ls target/*.jar | head -1)
-        mvn -B -s shared-workflows/maven/eits_mulesoft_settings.xml deploy -DmuleDeploy -Danypoint.client_id="$CLIENT_ID" -Danypoint.client_secret="$CLIENT_SECRET" -Dmule.artifact=$artifactName -Danypoint.muleEnv="$ANYPOINT_ENV"
+        mvn -B -s shared-workflows/maven/eits_mulesoft_settings.xml deploy -DskipTests -DmuleDeploy -Danypoint.client_id="$CLIENT_ID" -Danypoint.client_secret="$CLIENT_SECRET" -Dmule.artifact=$artifactName -Danypoint.muleEnv="$ANYPOINT_ENV"
