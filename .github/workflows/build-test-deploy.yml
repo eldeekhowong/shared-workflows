@@ -36,8 +36,9 @@ jobs:
     steps:
     - name: Display var
       run: |
-        echo '${{input.tag}}'
-        echo '${{input.artifactGroup}}'
+        echo '${{inputs.tag}}'
+        echo '${{inputs.artifactGroup}}'
+        echo '${{inputs.muleEnv}}'
     - name: Checkout this repo
       if: ${{ inputs.tag == '' }}
       uses: actions/checkout@v4
