@@ -1,13 +1,13 @@
-name: Build and Deploy to Sandbox
+name: Build, Deploy, or Promote to Sandbox
 
 on:
   workflow_call:
     inputs:
-      build-test-deploy: 
-        description: Specify whether you would like to build the jar file or just run unit tests
+      build-deploy-promote: 
+        description: Specify whether you would like to build the jar file or build and deploy or promote a tag
         required: false
         type: string
-        default: 'test'
+        default: 'build'
       code-coverage-required:
         description: Specify whether code coverage is required for maven to succeed
         required: false
@@ -18,11 +18,11 @@ on:
         required: false
         type: string
         default: 'Development'
-      artifactGroup:
-        description: Specify Group ID for artifact
-        required: false
-        type: string
-        default: ''
+#      artifactGroup:
+#        description: Specify Group ID for artifact
+#        required: false
+#        type: string
+#        default: ''
       tag:
         description: Specify tag to promote
         required: false
@@ -56,20 +56,10 @@ jobs:
         repository: "eldeekhowong/shared-workflows"
         path: "shared-workflows"
         sparse-checkout: "maven/eits_mulesoft_settings.xml"
-
-
-  Run-Tests:
-    if: ${{ inputs.build-test-deploy == 'test' || inputs.build-test-deploy == 'build' || inputs.build-test-deploy == 'deploy' || inputs.build-test-deploy == 'promote'}}
-    needs: Checkout-Repo
-    runs-on: self-hosted
-    steps:
-    - name: Build with Maven
-      run: mvn -B -s shared-workflows/maven/eits_mulesoft_settings.xml clean test -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
     
 
   Build-Package:
-    if: ${{ inputs.build-test-deploy == 'build' || inputs.build-test-deploy == 'deploy' || inputs.build-test-deploy == 'promote'}}
-    needs: Run-Tests
+    needs: Checkout-Repo
     runs-on: self-hosted
     steps:
     - name: Build with Maven
@@ -77,7 +67,7 @@ jobs:
 
 
   Deploy-Package:
-    if: ${{ inputs.build-test-deploy == 'deploy' }}
+    if: ${{ inputs.build-deploy-promote == 'deploy' }}
     needs: Build-Package
     runs-on: self-hosted
     steps:
@@ -108,15 +98,10 @@ jobs:
             ref: 'refs/tags/${{ steps.retrieve-artifact-version.outputs.ARTIFACT_VERSION }}',
             sha: context.sha
           })
-         
-#        artifactName1=$(ls target/*.jar | head -1)
-#        commitHash=$(git rev-parse --short "$GITHUB_SHA")
-#        artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/-$commitHash.jar/g")
-#        mv $artifactName1 $artifactName2
 
 
   Promote-Build:
-    if: ${{ inputs.build-test-deploy == 'promote' }}
+    if: ${{ inputs.build-deploy-promote == 'promote' }}
     needs: Build-Package
     runs-on: self-hosted
     steps:
