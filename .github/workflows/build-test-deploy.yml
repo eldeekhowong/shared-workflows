@@ -34,6 +34,10 @@ jobs:
   Checkout-Repo:
     runs-on: self-hosted
     steps:
+    - name: Display var
+      run: |
+        echo '${{input.tag}}'
+        echo '${{input.artifactGroup}}'
     - name: Checkout this repo
       if: ${{ inputs.tag == '' }}
       uses: actions/checkout@v4
