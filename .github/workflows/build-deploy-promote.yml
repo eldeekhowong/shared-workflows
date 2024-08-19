@@ -58,25 +58,27 @@ jobs:
     
 
   Build-Package:
+    if: ${{ inputs.build-deploy-promote == 'build' || inputs.build-deploy-promote == 'promote'}}
     needs: Checkout-Repo
     runs-on: self-hosted
     steps:
     - name: Build with Maven
-      run: mvn -B -s shared-workflows/maven/eits_mulesoft_settings.xml package -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
+      run: mvn -B -s shared-workflows/maven/eits_mulesoft_settings.xml clean package -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
 
 
   Upload-Package-Artifactory:
-    if: ${{ inputs.build-deploy-promote == 'deploy' }}
-    needs: Build-Package
+    if: ${{ inputs.build-deploy-promote == 'deploy' || inputs.build-deploy-promote == 'promote'}}
+    needs: Checkout-Repo
     runs-on: self-hosted
     steps:
     - name: Deploy package to Artifactory
-      run: mvn -s shared-workflows/maven/eits_mulesoft_settings.xml -B deploy -DskipTests -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
+      if: ${{ inputs.build-deploy-promote == 'deploy' }}
+      run: mvn -B -s shared-workflows/maven/eits_mulesoft_settings.xml clean deploy -DskipTests -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
 
 
   Tag-Artifact:
     if: ${{ inputs.build-deploy-promote == 'deploy' }}
-    needs: Build-Package
+    needs: Upload-Package-Artifactory
     runs-on: self-hosted
     steps:
     - name: Extract artifact version
@@ -99,7 +101,7 @@ jobs:
 
   Deploy-Package-Anypoint:
     if: ${{ inputs.build-deploy-promote == 'deploy' || inputs.build-deploy-promote == 'promote'}}
-    needs: Build-Package
+    needs: Upload-Package-Artifactory
     runs-on: self-hosted
     steps:
     - name: Deploy to Runtime Manager
