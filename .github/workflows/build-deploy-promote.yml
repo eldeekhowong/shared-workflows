@@ -84,7 +84,7 @@ jobs:
     - name: Extract artifact version
       id: extract-artifact-version
       run: |
-        ARTIFACT_VERSION=$(cat version.txt)
+        ARTIFACT_VERSION=$(cat target/version.txt)
         echo "ARTIFACT_VERSION=$ARTIFACT_VERSION" >> "$GITHUB_OUTPUT"
     - name: Tag with artifact version
       uses: actions/github-script@v7
