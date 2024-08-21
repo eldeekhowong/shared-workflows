@@ -2,32 +2,6 @@ name: EITS Anypoint Deploy
 
 on:
   workflow_call:
-    inputs:
-      build-deploy-promote: 
-        description: Specify whether you would like to build the jar file or build and deploy or promote a tag
-        required: false
-        type: string
-        default: 'build'
-      code-coverage-required:
-        description: Specify whether code coverage is required for maven to succeed
-        required: false
-        type: boolean
-        default: true
-      muleEnv:
-        description: Mule environment to deploy to
-        required: false
-        type: string
-        default: 'Development'
-      artifactGroup:
-        description: Specify Group ID for artifact
-        required: false
-        type: string
-        default: ''
-      tag:
-        description: Specify tag to promote
-        required: false
-        type: string
-        default: ''
 
 
 jobs:
