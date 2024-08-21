@@ -112,7 +112,6 @@ jobs:
     needs: [Tag-Artifact]
     runs-on: self-hosted
     uses: eldeekhowong/shared-workflows/.github/workflows/eits-anypoint-deploy.yml@main
-    secrets: inherit
 
 
   Promote-Package-Anypoint:
@@ -120,4 +119,3 @@ jobs:
     needs: [Download-Package-Artifactory]
     runs-on: self-hosted
     uses: eldeekhowong/shared-workflows/.github/workflows/eits-anypoint-deploy.yml@main
-    secrets: inherit
