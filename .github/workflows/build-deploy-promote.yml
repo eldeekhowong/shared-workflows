@@ -54,7 +54,7 @@ jobs:
       with: 
         repository: "eldeekhowong/shared-workflows"
         path: "shared-workflows"
-        sparse-checkout: "maven/eits_mulesoft_settings.xml"
+        sparse-checkout: "maven"
     
 
   Build-Package:
