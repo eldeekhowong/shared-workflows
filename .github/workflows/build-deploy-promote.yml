@@ -111,11 +111,15 @@ jobs:
     if: ${{ inputs.build-deploy-promote == 'deploy' }}
     needs: [Tag-Artifact]
     runs-on: self-hosted
-    uses: eldeekhowong/shared-workflows/.github/workflows/eits-anypoint-deploy.yml@main
+    steps:
+    - name: Deploy to Anypoint Platform
+      uses: eldeekhowong/shared-workflows/.github/workflows/eits-anypoint-deploy.yml@main
 
 
   Promote-Package-Anypoint:
     if: ${{ inputs.build-deploy-promote == 'promote' }}
     needs: [Download-Package-Artifactory]
     runs-on: self-hosted
-    uses: eldeekhowong/shared-workflows/.github/workflows/eits-anypoint-deploy.yml@main
+    steps:
+    - name: Deploy to Anypoint Platform
+      uses: eldeekhowong/shared-workflows/.github/workflows/eits-anypoint-deploy.yml@main
