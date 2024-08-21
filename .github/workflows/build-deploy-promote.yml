@@ -107,11 +107,11 @@ jobs:
         echo "HELLO"
 
     
-#  Deploy-Package-Anypoint:
-#    if: ${{ inputs.build-deploy-promote == 'deploy' }}
-#    needs: [Tag-Artifact]
-#    runs-on: self-hosted
-#    uses: eits-anypoint-deploy.yml@main
+  Deploy-Package-Anypoint:
+    if: ${{ inputs.build-deploy-promote == 'deploy' }}
+    needs: [Tag-Artifact]
+    runs-on: self-hosted
+    uses: eits-anypoint-deploy.yml@main
 
 
 #  Promote-Package-Anypoint:
