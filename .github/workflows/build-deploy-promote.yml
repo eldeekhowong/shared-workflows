@@ -84,7 +84,7 @@ jobs:
     - name: Extract artifact version
       id: extract-artifact-version
       run: |
-        ARTIFACT_VERSION=$(ls target/*.jar | head -1 | awk '{print substr($1,length($1)-50,21)}')
+        ARTIFACT_VERSION=$(cat version.txt)
         echo "ARTIFACT_VERSION=$ARTIFACT_VERSION" >> "$GITHUB_OUTPUT"
     - name: Tag with artifact version
       uses: actions/github-script@v7
@@ -104,7 +104,9 @@ jobs:
     steps:
     - name: Download package
       run: |
-        echo "HELLO"
+        artifactName=${{artifactGroup}}:${{ github.event.repository.name }}:${{tag}}:jar:mule-application
+        echo "Downloading $artifactName"
+        mvn -B dependency:copy -Dartifact=$artifactName:jar:mule-application -DoutputDirectory=target/. -Dtransitive=false
 
     
   Deploy-Package-Anypoint:
