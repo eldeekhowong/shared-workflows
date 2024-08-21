@@ -106,7 +106,7 @@ jobs:
       run: |
         artifactName=${{ inputs.artifactGroup }}:${{ github.event.repository.name }}:${{ inputs.tag }}:jar:mule-application
         echo "Downloading $artifactName"
-        mvn -B dependency:copy -Dartifact=$artifactName:jar:mule-application -DoutputDirectory=target/. -Dtransitive=false
+        mvn -B dependency:copy -Dartifact=$artifactName -DoutputDirectory=target/. -Dtransitive=false
 
     
   Deploy-Package-Anypoint:
