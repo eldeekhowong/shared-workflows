@@ -2,6 +2,12 @@ name: EITS Anypoint Deploy
 
 on:
   workflow_call:
+    inputs:
+      muleEnv:
+        description: Mule environment to deploy to
+        required: false
+        type: string
+        default: 'Development'
 
 
 jobs:
@@ -9,7 +15,10 @@ jobs:
     runs-on: self-hosted
     steps:
     - name: Deploy to Anypoint Platform
+      env:
+        CLIENT_ID: ${{ secrets.anypoint_platform_client_id }}
+        CLIENT_SECRET: ${{ secrets.anypoint_platform_client_secret }}
+        ANYPOINT_ENV: ${{ inputs.muleEnv }}
       run: |
-        echo "Hello"
         artifactName=$(ls target/*.jar | head -1)
         mvn -B -s shared-workflows/maven/eits_mulesoft_settings.xml deploy -DskipTests -DmuleDeploy -Danypoint.client_id="$CLIENT_ID" -Danypoint.client_secret="$CLIENT_SECRET" -Dmule.artifact=$artifactName -Danypoint.muleEnv="$ANYPOINT_ENV"

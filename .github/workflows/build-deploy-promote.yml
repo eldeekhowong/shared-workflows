@@ -112,6 +112,8 @@ jobs:
     needs: [Tag-Artifact]
     uses: eldeekhowong/shared-workflows/.github/workflows/eits-anypoint-deploy.yml@main
     secrets: inherit
+    with:
+      muleEnv: ${{ inputs.muleEnv }}
 
 
   Promote-Package-Anypoint:
@@ -119,3 +121,5 @@ jobs:
     needs: [Download-Package-Artifactory]
     uses: eldeekhowong/shared-workflows/.github/workflows/eits-anypoint-deploy.yml@main
     secrets: inherit
+    with:
+      muleEnv: ${{ inputs.muleEnv }}
