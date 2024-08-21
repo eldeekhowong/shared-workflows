@@ -113,8 +113,7 @@ jobs:
     uses: eldeekhowong/shared-workflows/.github/workflows/eits-anypoint-deploy.yml@main
 
 
-#  Promote-Package-Anypoint:
-#    if: ${{ inputs.build-deploy-promote == 'promote' }}
-#    needs: [Download-Package-Artifactory]
-#    runs-on: self-hosted
-#    uses: eits-anypoint-deploy.yml@main
+  Promote-Package-Anypoint:
+    if: ${{ inputs.build-deploy-promote == 'promote' }}
+    needs: [Download-Package-Artifactory]
+    uses: eldeekhowong/shared-workflows/.github/workflows/eits-anypoint-deploy.yml@main
