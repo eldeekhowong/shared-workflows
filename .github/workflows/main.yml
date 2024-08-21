@@ -36,5 +36,5 @@ jobs:
       build-deploy-promote: 'promote'
       code-coverage-required: false
       muleEnv: ${{ inputs.muleEnv }}
-#      artifactGroup: ${{ inputs.artifactGroup }}
+      artifactGroup: ${{ inputs.artifactGroup }}
       tag: ${{GITHUB.ref_name}}
