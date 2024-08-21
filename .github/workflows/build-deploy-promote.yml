@@ -111,7 +111,7 @@ jobs:
     if: ${{ inputs.build-deploy-promote == 'deploy' }}
     needs: [Tag-Artifact]
     runs-on: self-hosted
-    uses: ./eits-anypoint-deploy.yml@main
+    uses: ./eldeekhowong/shared-workflows/eits-anypoint-deploy.yml@main
 
 
 #  Promote-Package-Anypoint:
