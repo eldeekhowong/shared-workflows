@@ -31,10 +31,11 @@ on:
 
 
 jobs:
-  Checkout-Repo:
-    if: ${{ inputs.build-deploy-promote == 'build' || inputs.build-deploy-promote == 'deploy' }}
+  Anypoint-Deploy:
     runs-on: self-hosted
     steps:
-    - name: Checkout this repo
+    - name: Deploy to Anypoint Platform
       run: |
         echo "Hello"
+        artifactName=$(ls target/*.jar | head -1)
+#        mvn -B -s shared-workflows/maven/eits_mulesoft_settings.xml deploy -DskipTests -DmuleDeploy -Danypoint.client_id="$CLIENT_ID" -Danypoint.client_secret="$CLIENT_SECRET" -Dmule.artifact=$artifactName -Danypoint.muleEnv="$ANYPOINT_ENV"
