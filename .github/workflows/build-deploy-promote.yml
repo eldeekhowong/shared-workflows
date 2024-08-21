@@ -104,7 +104,7 @@ jobs:
     steps:
     - name: Download package
       run: |
-        artifactName=${{artifactGroup}}:${{ github.event.repository.name }}:${{tag}}:jar:mule-application
+        artifactName=${{ input.artifactGroup }}:${{ github.event.repository.name }}:${{ input.tag }}:jar:mule-application
         echo "Downloading $artifactName"
         mvn -B dependency:copy -Dartifact=$artifactName:jar:mule-application -DoutputDirectory=target/. -Dtransitive=false
 
