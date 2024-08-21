@@ -2,16 +2,51 @@ name: EITS Anypoint Deploy
 
 on:
   workflow_call:
+    inputs:
+      build-deploy-promote: 
+        description: Specify whether you would like to build the jar file or build and deploy or promote a tag
+        required: false
+        type: string
+        default: 'build'
+      code-coverage-required:
+        description: Specify whether code coverage is required for maven to succeed
+        required: false
+        type: boolean
+        default: true
+      muleEnv:
+        description: Mule environment to deploy to
+        required: false
+        type: string
+        default: 'Development'
+      artifactGroup:
+        description: Specify Group ID for artifact
+        required: false
+        type: string
+        default: ''
+      tag:
+        description: Specify tag to promote
+        required: false
+        type: string
+        default: ''
+
 
 jobs:
-  Anypoint-Deploy:
+  Checkout-Repo:
+    if: ${{ inputs.build-deploy-promote == 'build' || inputs.build-deploy-promote == 'deploy' }}
+    runs-on: self-hosted
     steps:
-    - name: Deploy to Runtime Manager
-#      env:
-#        CLIENT_ID: ${{ secrets.anypoint_platform_client_id }}
-#        CLIENT_SECRET: ${{ secrets.anypoint_platform_client_secret }}
-#        ANYPOINT_ENV: development
-      run: |
-          echo "Hello"
-#        artifactName=$(ls target/*.jar | head -1)
-#        mvn -B -s shared-workflows/maven/eits_mulesoft_settings.xml deploy -DskipTests -DmuleDeploy -Danypoint.client_id="$CLIENT_ID" -Danypoint.client_secret="$CLIENT_SECRET" -Dmule.artifact=$artifactName -Danypoint.muleEnv="$ANYPOINT_ENV"
+    - name: Checkout this repo
+      if: ${{ inputs.tag == '' }}
+      uses: actions/checkout@v4
+    - name: Checkout specific tag
+      if: ${{ inputs.tag != '' }}
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.tag }}
+ #   - name: Cache dependencies
+ #     uses: actions/cache@v3
+ #     with:
+ #       path: ~/.m2/repository
+ #       key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+ #       restore-keys: |
+ #         ${{ runner.os }}-maven-
