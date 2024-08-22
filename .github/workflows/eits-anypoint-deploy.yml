@@ -22,4 +22,4 @@ jobs:
       run: |
         artifactName=$(ls target/*.jar | head -1)
         echo $artifactName
-        ${{vars.MVN_COMMAND}} -DskipTests -DmuleDeploy -Danypoint.client_id="$CLIENT_ID" -Danypoint.client_secret="$CLIENT_SECRET" -Dmule.artifact=$artifactName -Danypoint.muleEnv="$ANYPOINT_ENV"
+        ${{vars.MVN_COMMAND}} deploy -DskipTests -DmuleDeploy -Danypoint.client_id="$CLIENT_ID" -Danypoint.client_secret="$CLIENT_SECRET" -Dmule.artifact=$artifactName -Danypoint.muleEnv="$ANYPOINT_ENV"
