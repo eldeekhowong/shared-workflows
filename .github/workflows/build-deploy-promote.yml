@@ -105,7 +105,8 @@ jobs:
     - name: Download package
       run: |
         artifactName=${{ inputs.artifactGroup }}:${{ github.event.repository.name }}:${{ inputs.tag }}:jar:mule-application
-        echo "Downloading $artifactName"
+        echo vars.MVN_COMMAND
+        echo Downloading $artifactName
         /opt/apache-maven-3.9.9/bin/mvn -B -s ./shared-workflows/maven/eits_mulesoft_settings.xml dependency:copy -Dartifact=$artifactName -DoutputDirectory=target/. -Dtransitive=false
 
     
