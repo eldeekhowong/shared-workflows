@@ -31,7 +31,7 @@ jobs:
 
     - name: Set new version
       run: |
-        echo ${input.version}
+        echo ${inputs.version}
         run: ${{vars.MVN_COMMAND}} versions:set -DnewVersion="${input.version}-\${maven.build.timestamp}-SNAPSHOT"
   
     - name: Create Pull Request
