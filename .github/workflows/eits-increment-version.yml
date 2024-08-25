@@ -32,7 +32,8 @@ jobs:
     - name: Set new version
       run: |
         echo ${{ inputs.version }} 
-        ${{ vars.MVN_COMMAND }} versions:set -DnewVersion="${{ inputs.version }}-\${maven.build.timestamp}-SNAPSHOT"
+       # ${{ vars.MVN_COMMAND }} versions:set -DnewVersion="${{ inputs.version }}-\${maven.build.timestamp}-SNAPSHOT"
+       echo "HELLO" >> mule-artifact.json
   
     - name: Create Pull Request
       uses: actions/github-script@v7
