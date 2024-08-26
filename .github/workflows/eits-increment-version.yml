@@ -57,10 +57,10 @@ jobs:
  #         echo "HELLO";
 #          echo result;
 
-#          await github.rest.pulls.listCommits.endpoint.merge({
- #           owner,
-  #          repo,
-   #       ${{ github.event.number }}});
+          await github.rest.pulls.listCommits.endpoint.merge({
+            owner,
+            repo,
+            result.data.id});
 
 
 #  Increment-Version:
