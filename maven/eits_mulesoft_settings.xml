@@ -134,18 +134,18 @@ under the License.
 
     <server>
       <id>eits-mulesoft-artifacts</id>
-      <username>eldee.khowong@afs.com</username>
-      <password>cmVmdGtuOjAxOjE3NTQ3OTk5Njg6WHF5TlFCQ2pTT050bTNpN2RYd25QR1E1VVN2</password>
+      <username>eldee.khowong@accenturefederal.com</username>
+      <password>cmVmdGtuOjAxOjE3NTYyNDgwNDA6SXVncDVNTm0yUnU5ZWNJbjZzRU5jZTRPdFBn</password>
     </server>
     <server>
       <id>eits-mule-project-snapshots</id>
-      <username>eldee.khowong@afs.com</username>
-      <password>cmVmdGtuOjAxOjE3NTQ3OTk5Njg6WHF5TlFCQ2pTT050bTNpN2RYd25QR1E1VVN2</password>
+      <username>eldee.khowong@accenturefederal.com</username>
+      <password>cmVmdGtuOjAxOjE3NTYyNDgwNDA6SXVncDVNTm0yUnU5ZWNJbjZzRU5jZTRPdFBn</password>
     </server>
     <server>
       <id>eits-mule-project-releases</id>
-      <username>eldee.khowong@afs.com</username>
-      <password>cmVmdGtuOjAxOjE3NTQ3OTk5Njg6WHF5TlFCQ2pTT050bTNpN2RYd25QR1E1VVN2</password>
+      <username>eldee.khowong@accenturefederal.com</username>
+      <password>cmVmdGtuOjAxOjE3NTYyNDgwNDA6SXVncDVNTm0yUnU5ZWNJbjZzRU5jZTRPdFBn</password>
     </server>
   </servers>
 
@@ -184,7 +184,7 @@ under the License.
     <mirror>
       <id>eits-mulesoft-artifacts</id>
       <name>Internal Artifactory Repository</name>
-      <url>https://ektest.jfrog.io/artifactory/eits-mulesoft-artifacts</url>
+      <url>https://ektest2.jfrog.io/artifactory/eits-mulesoft-artifacts</url>
       <mirrorOf>*,!eits-mule-project-snapshots,!eits-mule-project-releases</mirrorOf>
     </mirror>
   </mirrors>
@@ -283,24 +283,24 @@ under the License.
       <repositories>
         <repository>
           <id>eits-mulesoft-artifacts</id>
-          <url>https://ektest.jfrog.io/artifactory/eits-mulesoft-artifacts</url>
+          <url>https://ektest2.jfrog.io/artifactory/eits-mulesoft-artifacts</url>
           <layout>default</layout>
         </repository>
         <repository>
           <id>eits-mule-project-snapshots</id>
-          <url>https://ektest.jfrog.io/artifactory/eits-mule-project-snapshots</url>
+          <url>https://ektest2.jfrog.io/artifactory/eits-mule-project-snapshots</url>
           <layout>default</layout>
         </repository>
         <repository>
           <id>eits-mule-project-releases</id>
-          <url>https://ektest.jfrog.io/artifactory/eits-mule-project-releases</url>
+          <url>https://ektest2.jfrog.io/artifactory/eits-mule-project-releases</url>
           <layout>default</layout>
         </repository>
       </repositories>
       <pluginRepositories>
         <pluginRepository>
           <id>eits-mulesoft-artifacts</id>
-          <url>https://ektest.jfrog.io/artifactory/eits-mulesoft-artifacts</url>
+          <url>https://ektest2.jfrog.io/artifactory/eits-mulesoft-artifacts</url>
           <layout>default</layout>
           <releases>
             <enabled>true</enabled>
