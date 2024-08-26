@@ -54,8 +54,8 @@ jobs:
               '[actions/github-script](https://github.com/actions/github-script).'
             ].join('\n')
           });
-          echo "HELLO";
-          echo result;
+ #         echo "HELLO";
+#          echo result;
 
 #          await github.rest.pulls.listCommits.endpoint.merge({
  #           owner,
