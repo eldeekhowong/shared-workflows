@@ -54,13 +54,11 @@ jobs:
               '[actions/github-script](https://github.com/actions/github-script).'
             ].join('\n')
           });
- #         echo "HELLO";
-#          echo result;
-
-          await github.rest.pulls.listCommits.endpoint.merge({
+          const result2 = await github.rest.pulls.listCommits.endpoint.merge({
             owner,
             repo,
-            result.data.id});
+            result.data.id
+          });
 
 
 #  Increment-Version:
