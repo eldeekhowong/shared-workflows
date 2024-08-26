@@ -55,11 +55,12 @@ jobs:
             ].join('\n')
           });
           console.log(result.data.number);
-#          const result2 = await github.rest.pulls.listCommits.endpoint.merge({
- #           owner,
-  #          repo,
-   #         result.data.id
-    #      });
+          const result2 = await github.rest.pulls.listCommits.endpoint.merge({
+            owner,
+            repo,
+            result.data.number
+          });
+          console.log(result2);
 
 
 #  Increment-Version:
