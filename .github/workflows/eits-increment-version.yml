@@ -55,7 +55,7 @@ jobs:
             ].join('\n')
           });
           console.log(result.data.number);
-          const result2 = await github.rest.pulls.listCommits.endpoint.merge({
+          const result2 = await github.rest.pulls.merge({
             owner: owner,
             repo: repo,
             pull_number: result.data.number
