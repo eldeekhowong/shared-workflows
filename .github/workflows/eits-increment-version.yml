@@ -55,7 +55,7 @@ jobs:
             ].join('\n')
           });
           echo "HELLO";
-          echo result.data.id;
+#          echo result.data.id;
 
 #          await github.rest.pulls.listCommits.endpoint.merge({
  #           owner,
