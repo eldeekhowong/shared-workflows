@@ -34,6 +34,7 @@ jobs:
 
     - name: Commit and push
       run: |
+        git add mule-artifact.json
         git commit -m "Incrementing POM version to ${{ inputs.version}}"
         git push -f -u origin HEAD
 
