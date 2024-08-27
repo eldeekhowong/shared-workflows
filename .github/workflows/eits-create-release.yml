@@ -46,4 +46,4 @@ jobs:
     with:
       build-deploy-promote: 'deploy'
       code-coverage-required: false #switch to true
-      branch: 'develop'
+      branch: 'main'
