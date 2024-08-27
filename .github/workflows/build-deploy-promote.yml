@@ -28,27 +28,24 @@ on:
         required: false
         type: string
         default: ''
-
+      branch:
+        description: Specify branch to checkout
+        required: false
+        type: string
+        default: ''
 
 jobs:
   Checkout-Repo:
     runs-on: self-hosted
     steps:
     - name: Checkout this repo
-#      if: ${{ inputs.build-deploy-promote == 'build' || inputs.build-deploy-promote == 'deploy' }}
+      if: ${{ inputs.branch == '' }}
       uses: actions/checkout@v4
- #    - name: Checkout specific tag
- #      if: ${{ inputs.tag != '' }}
- #     uses: actions/checkout@v4
- #     with:
- #       ref: ${{ inputs.tag }}
- #   - name: Cache dependencies
- #     uses: actions/cache@v3
- #     with:
- #       path: ~/.m2/repository
- #       key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
- #       restore-keys: |
- #         ${{ runner.os }}-maven-
+    - name: Checkout specific branch
+      if: ${{ inputs.branch != '' }}
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.branch }}
     - name: Checkout settings.xml
       uses: actions/checkout@v4
       with: 
