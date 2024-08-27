@@ -25,7 +25,7 @@ jobs:
     - name: Calculate release version
       id: calculate-release-version
       run: |
-        CURRENT_VERSION=$({{ vars.MVN_COMMAND }} help:evaluate -Dexpression=project.version -q -DforceStdout)
+        CURRENT_VERSION=$(${{ vars.MVN_COMMAND }} help:evaluate -Dexpression=project.version -q -DforceStdout)
         RELEASE_VERSION=$(echo CURRENT_VERSION | cut -d '-' -f 1)
         echo $RELEASE_VERSION
         echo "RELEASE_VERSION=$RELEASE_VERSION" >> $GITHUB_OUTPUT
