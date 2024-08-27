@@ -66,3 +66,7 @@ jobs:
             repo: repo,
             pull_number: result.data.number
           });
+          
+    - name: Delete increment version branch
+      run: |
+        git push origin --delete increment-${{ inputs.version }}-SNAPSHOT
