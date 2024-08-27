@@ -1,0 +1,48 @@
+name: EITS Create Release
+
+on:
+  workflow_call:
+
+jobs:
+  Checkout-Repo:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout this repo
+      uses: actions/checkout@v4
+    - name: Checkout settings.xml
+      uses: actions/checkout@v4
+      with: 
+        repository: "eldeekhowong/shared-workflows"
+        path: "shared-workflows"
+        sparse-checkout: "maven"
+  
+  Calculate-Release-Version:
+    needs: Checkout-Repo
+    runs-on: self-hosted
+    outputs:
+      RELEASE_VERSION: ${{ steps.calculate-release-version.outputs.RELEASE_VERSION }}
+    steps:
+    - name: Calculate release version
+      id: calculate-release-version
+      run: |
+        CURRENT_VERSION=$({{ vars.MVN_COMMAND }} help:evaluate -Dexpression=project.version -q -DforceStdout)
+        RELEASE_VERSION=$(echo CURRENT_VERSION | cut -d '-' -f 1)
+        echo $RELEASE_VERSION
+        echo "RELEASE_VERSION=$RELEASE_VERSION" >> $GITHUB_OUTPUT
+
+  Increment-Version-Pipeline:
+    needs: Calculate-Release-Version
+    uses: eldeekhowong/shared-workflows/.github/workflows/eits-increment-version.yml@main
+    secrets: inherit
+    with:
+      version: ${{ needs.Calculate-Release-Version.outputs.RELEASE_VERSION }}'
+      branch: 'main'
+
+  Mule-Deploy-Pipeline:
+    needs: Increment-Version-Pipeline
+    uses: eldeekhowong/shared-workflows/.github/workflows/build-deploy-promote.yml@main
+    secrets: inherit
+    with:
+      build-deploy-promote: 'deploy'
+      code-coverage-required: false #switch to true
+      branch: 'develop'
