@@ -37,7 +37,7 @@ jobs:
         sparse-checkout: "maven"
 
     - name: Calculate release version
-      if ${{inputs.release == true}}
+      if: ${{ inputs.release == true }}
       run: |
         CURRENT_VERSION=$(${{ vars.MVN_COMMAND }} help:evaluate -Dexpression=project.version -q -DforceStdout)
         echo "Current Version: $CURRENT_VERSION"
