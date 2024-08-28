@@ -9,6 +9,8 @@ jobs:
     steps:
     - name: Checkout this repo
       uses: actions/checkout@v4
+      with:
+        ref: "main"
     - name: Checkout settings.xml
       uses: actions/checkout@v4
       with: 
