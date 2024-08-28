@@ -62,7 +62,7 @@ jobs:
     - name: Commit and push changes
       run: |
         git add "pom.xml"
-        git commit -m "POM version to ${{ env.VERSION }}"
+        git commit -m "Updated POM version to ${{ env.VERSION }}"
         git push -f -u origin HEAD
     
     - name: Pull Request from new version branch to target branch
