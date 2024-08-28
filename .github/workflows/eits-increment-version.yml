@@ -42,8 +42,8 @@ jobs:
         CURRENT_VERSION=$(${{ vars.MVN_COMMAND }} help:evaluate -Dexpression=project.version -q -DforceStdout)
         echo "Current Version: $CURRENT_VERSION"
         RELEASE_VERSION=$(echo $CURRENT_VERSION | cut -d '-' -f 1)
-        echo "Release Version $RELEASE_VERSION"
-        echo "VERSION=$RELEASE_VERSION" >> $GITHUB_OUTPUT
+        echo "Release Version: $RELEASE_VERSION"
+        echo "VERSION=$RELEASE_VERSION" >> $GITHUB_ENV
 
     - name: Configure Git
       run: |
