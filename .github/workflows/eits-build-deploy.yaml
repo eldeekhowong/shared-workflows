@@ -26,7 +26,7 @@ on:
 
 
 jobs:
-  Checkout Repo:
+  Checkout-Repo:
     runs-on: self-hosted
     steps:
     - name: Checkout this repo
@@ -45,27 +45,27 @@ jobs:
         sparse-checkout: "maven"
     
 
-  Build Package:
+  Build-Package:
     if: ${{ inputs.build-deploy == 'build'}}
-    needs: Checkout Repo
+    needs: [Checkout-Repo]
     runs-on: self-hosted
     steps:
     - name: Build with Maven
       run: ${{vars.MVN_COMMAND}} clean package -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
 
 
-  Deploy Package to Artifactory:
+  Deploy-Package-Artifactory:
     if: ${{ inputs.build-deploy == 'deploy' }}
-    needs: Checkout Repo
+    needs: [Checkout-Repo]
     runs-on: self-hosted
     steps:
     - name: Deploy package to Artifactory
       run: ${{vars.MVN_COMMAND}} clean deploy -DskipTests -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
 
 
-  Tag Artifact:
+  Tag-Artifact:
     if: ${{ inputs.build-deploy == 'deploy' }}
-    needs: Deploy Package to Artifactory
+    needs: [Deploy-Package-Artifactory]
     runs-on: self-hosted
     steps:
     - name: Extract artifact version
@@ -85,10 +85,10 @@ jobs:
           })
 
 
-  Deploy Package to Anypoint:
+  Deploy-Package-Anypoint:
     if: ${{ inputs.build-deploy == 'deploy' }}
-    needs: Tag Artifact
-    uses: eldeekhowong/shared-workflows/.github/workflows/eits-anypoint-deploy.yml@main
+    needs: [Tag-Artifact]
+    uses: eldeekhowong/shared-workflows/.github/workflows/eits-anypoint-deploy.yaml@main
     secrets: inherit
     with:
       muleEnv: ${{ inputs.muleEnv }}
