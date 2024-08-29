@@ -1,4 +1,4 @@
-name: EITS Select Build or Deploy Event Job
+name: EITS Workflow Action
 
 on:
   workflow_call:
