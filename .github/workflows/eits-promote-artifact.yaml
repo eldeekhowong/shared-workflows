@@ -25,7 +25,7 @@ on:
         default: ''
 
 jobs:
-  Checkout Repo:
+  Checkout-Repo:
     runs-on: self-hosted
     steps:
     - name: Checkout this repo
@@ -44,20 +44,20 @@ jobs:
         sparse-checkout: "maven"
     
 
-  Download Package from Artifactory:
-    needs: Checkout Repo
+  Download-Artifact-Artifactory:
+    needs: [Checkout-Repo]
     runs-on: self-hosted
     steps:
-    - name: Download package
+    - name: Download artifact
       run: |
         artifactName=${{ inputs.artifactGroup }}:${{ github.event.repository.name }}:${{ inputs.tag }}:jar:mule-application
         echo Downloading $artifactName
         ${{vars.MVN_COMMAND}} dependency:copy -Dartifact=$artifactName -DoutputDirectory=target/. -Dtransitive=false
 
 
-  Promote Package to Anypoint:
-    needs: Download Package from Artifactory
-    uses: eldeekhowong/shared-workflows/.github/workflows/eits-anypoint-deploy.yml@main
+  Promote-Artifact-Anypoint:
+    needs: [Download-Artifact-Artifactory]
+    uses: eldeekhowong/shared-workflows/.github/workflows/eits-anypoint-deploy.yaml@main
     secrets: inherit
     with:
       muleEnv: ${{ inputs.muleEnv }}
