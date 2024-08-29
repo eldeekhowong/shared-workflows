@@ -1,0 +1,63 @@
+name: EITS Promote Artifact Job
+
+on:
+  workflow_call:
+    inputs:
+      muleEnv:
+        description: Mule environment to deploy to
+        required: false
+        type: string
+        default: 'Development'
+      artifactGroup:
+        description: Specify Group ID for artifact
+        required: false
+        type: string
+        default: ''
+      tag:
+        description: Specify tag to promote
+        required: false
+        type: string
+        default: ''
+      branch:
+        description: Specify branch to checkout
+        required: false
+        type: string
+        default: ''
+
+jobs:
+  Checkout Repo:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout this repo
+      if: ${{ inputs.branch == '' }}
+      uses: actions/checkout@v4
+    - name: Checkout specific branch
+      if: ${{ inputs.branch != '' }}
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.branch }}
+    - name: Checkout settings.xml
+      uses: actions/checkout@v4
+      with: 
+        repository: "eldeekhowong/shared-workflows"
+        path: "shared-workflows"
+        sparse-checkout: "maven"
+    
+
+  Download Package from Artifactory:
+    needs: Checkout Repo
+    runs-on: self-hosted
+    steps:
+    - name: Download package
+      run: |
+        artifactName=${{ inputs.artifactGroup }}:${{ github.event.repository.name }}:${{ inputs.tag }}:jar:mule-application
+        echo Downloading $artifactName
+        ${{vars.MVN_COMMAND}} dependency:copy -Dartifact=$artifactName -DoutputDirectory=target/. -Dtransitive=false
+
+
+  Promote Package to Anypoint:
+    needs: Download Package from Artifactory
+    uses: eldeekhowong/shared-workflows/.github/workflows/eits-anypoint-deploy.yml@main
+    secrets: inherit
+    with:
+      muleEnv: ${{ inputs.muleEnv }}

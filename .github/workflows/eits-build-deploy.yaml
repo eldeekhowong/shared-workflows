@@ -1,15 +1,15 @@
-name: Build, Deploy, or Promote to Sandbox
+name: EITS Build and Deploy Job
 
 on:
   workflow_call:
     inputs:
-      build-deploy-promote: 
-        description: Specify whether you would like to build the jar file or build and deploy or promote a tag
+      build-deploy: 
+        description: Specify whether you would like to build the jar file or build and deploy
         required: false
         type: string
         default: 'build'
       code-coverage-required:
-        description: Specify whether code coverage is required for maven to succeed
+        description: Specify whether code coverage is required for the build to succeed
         required: false
         type: boolean
         default: true
@@ -18,24 +18,15 @@ on:
         required: false
         type: string
         default: 'Development'
-      artifactGroup:
-        description: Specify Group ID for artifact
-        required: false
-        type: string
-        default: ''
-      tag:
-        description: Specify tag to promote
-        required: false
-        type: string
-        default: ''
       branch:
         description: Specify branch to checkout
         required: false
         type: string
         default: ''
 
+
 jobs:
-  Checkout-Repo:
+  Checkout Repo:
     runs-on: self-hosted
     steps:
     - name: Checkout this repo
@@ -54,27 +45,27 @@ jobs:
         sparse-checkout: "maven"
     
 
-  Build-Package:
-    if: ${{ inputs.build-deploy-promote == 'build'}}
-    needs: Checkout-Repo
+  Build Package:
+    if: ${{ inputs.build-deploy == 'build'}}
+    needs: Checkout Repo
     runs-on: self-hosted
     steps:
     - name: Build with Maven
       run: ${{vars.MVN_COMMAND}} clean package -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
 
 
-  Deploy-Package-Artifactory:
-    if: ${{ inputs.build-deploy-promote == 'deploy' }}
-    needs: Checkout-Repo
+  Deploy Package to Artifactory:
+    if: ${{ inputs.build-deploy == 'deploy' }}
+    needs: Checkout Repo
     runs-on: self-hosted
     steps:
     - name: Deploy package to Artifactory
       run: ${{vars.MVN_COMMAND}} clean deploy -DskipTests -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
 
 
-  Tag-Artifact:
-    if: ${{ inputs.build-deploy-promote == 'deploy' }}
-    needs: Deploy-Package-Artifactory
+  Tag Artifact:
+    if: ${{ inputs.build-deploy == 'deploy' }}
+    needs: Deploy Package to Artifactory
     runs-on: self-hosted
     steps:
     - name: Extract artifact version
@@ -94,30 +85,9 @@ jobs:
           })
 
 
-  Download-Package-Artifactory:
-    if: ${{ inputs.build-deploy-promote == 'promote' }}
-    needs: Checkout-Repo
-    runs-on: self-hosted
-    steps:
-    - name: Download package
-      run: |
-        artifactName=${{ inputs.artifactGroup }}:${{ github.event.repository.name }}:${{ inputs.tag }}:jar:mule-application
-        echo Downloading $artifactName
-        ${{vars.MVN_COMMAND}} dependency:copy -Dartifact=$artifactName -DoutputDirectory=target/. -Dtransitive=false
-
-    
-  Deploy-Package-Anypoint:
-    if: ${{ inputs.build-deploy-promote == 'deploy' }}
-    needs: [Tag-Artifact]
-    uses: eldeekhowong/shared-workflows/.github/workflows/eits-anypoint-deploy.yml@main
-    secrets: inherit
-    with:
-      muleEnv: ${{ inputs.muleEnv }}
-
-
-  Promote-Package-Anypoint:
-    if: ${{ inputs.build-deploy-promote == 'promote' }}
-    needs: [Download-Package-Artifactory]
+  Deploy Package to Anypoint:
+    if: ${{ inputs.build-deploy == 'deploy' }}
+    needs: Tag Artifact
     uses: eldeekhowong/shared-workflows/.github/workflows/eits-anypoint-deploy.yml@main
     secrets: inherit
     with:
