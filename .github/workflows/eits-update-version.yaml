@@ -19,7 +19,7 @@ on:
 
 
 jobs:
-  Set New Version:
+  Set-New-Version:
     runs-on: self-hosted
     env:
       VERSION: ${{ inputs.version }}
