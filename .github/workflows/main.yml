@@ -1,4 +1,4 @@
-name: EITS Main Mule Pipeline
+name: EITS Select Build or Deploy Event Job
 
 on:
   workflow_call:
