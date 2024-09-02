@@ -1,4 +1,5 @@
-[
+{
+	"include:": [
   {
     "projectName": "cicd-api-test",
     "muleMavenPluginVersion": "",
@@ -11,3 +12,4 @@
     "workerType": ""
   }
 ]
+}
