@@ -3,7 +3,7 @@
 		"projectName": "cicd-api-test",
 		"muleMavenPluginVersion": "",
 		"muleVersion": "",
-		"businessGroup": "Accenture Federal Services\User Sandboxes\eldee.khowong",
+		"businessGroup": "Accenture Federal Services\\User Sandboxes\\eldee.khowong",
 		"applicationName": "cicd-api-test-{version}",
 		"environment": "",
 		"region": "",
