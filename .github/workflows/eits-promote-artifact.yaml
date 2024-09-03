@@ -41,13 +41,9 @@ jobs:
       with: 
         repository: "eldeekhowong/shared-workflows"
         path: "shared-workflows"
-        sparse-checkout: "maven"
-    - name: Checkout environment specific anypoint-runtime-settings.json
-      uses: actions/checkout@v4
-      with: 
-        repository: "eldeekhowong/shared-workflows"
-        path: "shared-workflows"
-        sparse-checkout: "configuration"
+        sparse-checkout: |
+          maven
+          configuration
     
 
   Download-Artifact-Artifactory:
