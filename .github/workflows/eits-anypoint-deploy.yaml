@@ -31,13 +31,20 @@ jobs:
       matrix: ${{ fromJSON(needs.Anypoint-Deploy-Configuration.outputs.matrix) }}
     steps:
     - name: Deploy to Anypoint Platform
+      if: ${{ matrix.repositoryName == github.event.repository.name }}
       env:
         CLIENT_ID: ${{ secrets.anypoint_platform_client_id }}
         CLIENT_SECRET: ${{ secrets.anypoint_platform_client_secret }}
-        ANYPOINT_ENV: ${{ inputs.muleEnv }}
+        MULE_MAVEN_PLUGIN_VERSION: ${{ matrix.muleMavenPluginVersion }}
+        CH_URI: ${{ matrix.uri }}
+        CH_MULE_VERSION: ${{ matrix.muleVersion }}
+        CH_BUSINESS_GROUP: ${{ matrix.businessGroup }}
+        CH_APPLICATION_NAME: ${{ matrix.applicationName }}
+        CH_ENVIRONMENT: ${{ inputs.muleEnv }}
+        CH_REGION: ${{ matrix.region }}
+        CH_WORKERS: ${{ matrix.workers }}
+        CH_WORKER_TYPE: ${{ matrix.workerType }}
       run: |
         artifactName=$(ls target/*.jar | head -1)
         echo $artifactName
-        echo ${{ matrix.repositoryName }}
-        echo ${{ matrix.workers}}
-        # ${{vars.MVN_COMMAND}} mule:deploy -Danypoint.client_id="$CLIENT_ID" -Danypoint.client_secret="$CLIENT_SECRET" -Dmule.artifact=$artifactName -Danypoint.muleEnv="$ANYPOINT_ENV"
+        ${{vars.MVN_COMMAND}} mule:deploy -Danypoint.client_id="$CLIENT_ID" -Danypoint.client_secret="$CLIENT_SECRET" -Dmule.artifact=$artifactName -Dmule.maven.plugin.version="$MULE_MAVEN_PLUGIN_VERSION" -Dch.uri="$CH_URI" -Dch.muleVersion="$CH_MULE_VERSION" -Dch.businessGroup="$CH_BUSINESS_GROUP" -Dch.applicationName="$CH_APPLICATION_NAME" -Dch.environment="$CH_ENVIRONMENT" -Dch.region="$CH_REGION" -Dch.workers="$CH_WORKERS" -Dch.workerType="$CH_WORKER_TYPE"

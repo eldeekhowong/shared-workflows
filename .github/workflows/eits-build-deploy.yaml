@@ -37,18 +37,14 @@ jobs:
       uses: actions/checkout@v4
       with:
         ref: ${{ inputs.branch }}
-    - name: Checkout settings.xml
+    - name: Checkout EITS configuration settings
       uses: actions/checkout@v4
       with: 
         repository: "eldeekhowong/shared-workflows"
         path: "shared-workflows"
-        sparse-checkout: "maven"
-    - name: Checkout environment specific anypoint-runtime-settings.json
-      uses: actions/checkout@v4
-      with: 
-        repository: "eldeekhowong/shared-workflows"
-        path: "shared-workflows"
-        sparse-checkout: "configuration"
+        sparse-checkout: |
+          maven
+          configuration
 
   Build-Artifact:
     if: ${{ inputs.build-deploy == 'build'}}

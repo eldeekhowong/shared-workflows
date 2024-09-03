@@ -36,7 +36,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         ref: ${{ inputs.branch }}
-    - name: Checkout settings.xml
+    - name: Checkout EITS configuration settings
       uses: actions/checkout@v4
       with: 
         repository: "eldeekhowong/shared-workflows"
