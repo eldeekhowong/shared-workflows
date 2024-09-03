@@ -43,7 +43,12 @@ jobs:
         repository: "eldeekhowong/shared-workflows"
         path: "shared-workflows"
         sparse-checkout: "maven"
-    
+    - name: Checkout anypoint-runtime-settings.json
+      uses: actions/checkout@v4
+      with: 
+        repository: "eldeekhowong/shared-workflows"
+        path: "shared-workflows"
+        sparse-checkout: "maven"
 
   Build-Artifact:
     if: ${{ inputs.build-deploy == 'build'}}
