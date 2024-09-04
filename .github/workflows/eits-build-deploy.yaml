@@ -73,7 +73,12 @@ jobs:
       id: extract-artifact-version
       run: |
         ARTIFACT_VERSION=$(cat target/version.txt)
+        echo "Artifact Version: $ARTIFACT_VERSION"
         echo "ARTIFACT_VERSION=$ARTIFACT_VERSION" >> "$GITHUB_OUTPUT"
+
+        ARTIFACT_MAJOR_VERSION=$(echo $ARTIFACT_VERSION | cut -d '-' -f 1 | cut -d '.' -f 1)
+        echo "Artifact Major Version: $ARTIFACT_MAJOR_VERSION"
+        echo "ARTIFACT_MAJOR_VERSION=$ARTIFACT_MAJOR_VERSION" >> "$GITHUB_OUTPUT"
     - name: Tag with artifact version
       uses: actions/github-script@v7
       with:
@@ -84,7 +89,8 @@ jobs:
             ref: 'refs/tags/${{ steps.extract-artifact-version.outputs.ARTIFACT_VERSION }}',
             sha: context.sha
           })
-
+    outputs:
+      ARTIFACT_MAJOR_VERSION: ${{ steps.extract-artifact-version.outputs.ARTIFACT_MAJOR_VERSION }}
 
   Deploy-Artifact-Anypoint:
     if: ${{ inputs.build-deploy == 'deploy' }}
@@ -93,3 +99,4 @@ jobs:
     secrets: inherit
     with:
       muleEnv: ${{ inputs.muleEnv }}
+      majorVersion: ${{ needs.Tag-Artifact.outputs.ARTIFACT_MAJOR_VERSION}}
