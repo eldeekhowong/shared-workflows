@@ -51,10 +51,17 @@ jobs:
     runs-on: self-hosted
     steps:
     - name: Download artifact
+      id: download-artifact
       run: |
         artifactName=${{ inputs.artifactGroup }}:${{ github.event.repository.name }}:${{ inputs.tag }}:jar:mule-application
         echo Downloading $artifactName
         ${{vars.MVN_COMMAND}} dependency:copy -Dartifact=$artifactName -DoutputDirectory=target/. -Dtransitive=false
+
+        ARTIFACT_MAJOR_VERSION=$(echo ${{ inputs.tag }} | cut -d '-' -f 1 | cut -d '.' -f 1)
+        echo "Artifact Major Version: $ARTIFACT_MAJOR_VERSION"
+        echo "ARTIFACT_MAJOR_VERSION=$ARTIFACT_MAJOR_VERSION" >> "$GITHUB_OUTPUT"
+    outputs:
+      ARTIFACT_MAJOR_VERSION: ${{ steps.download-artifact.outputs.ARTIFACT_MAJOR_VERSION }}
 
 
   Promote-Artifact-Anypoint:
@@ -63,4 +70,4 @@ jobs:
     secrets: inherit
     with:
       muleEnv: ${{ inputs.muleEnv }}
-      majorVersion: "1"
+      majorVersion: ${{ needs.Download-Artifact-Artifactory.outputs.ARTIFACT_MAJOR_VERSION }}

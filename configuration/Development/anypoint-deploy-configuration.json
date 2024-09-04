@@ -19,7 +19,7 @@
       "muleVersion": "4.6-java17",
       "uri": "https://gov.anypoint.mulesoft.com",
       "businessGroup": "Accenture Federal Services\\User Sandboxes\\eldee.khowong",
-      "applicationName": "cicd-test-api-{version}-environment-eapi",
+      "applicationName": "usdoe-cicd-test-api-{version}-eapi-{env}",
       "environment": "Development",
       "region": "us-gov-west-1",
       "workers": "1",
