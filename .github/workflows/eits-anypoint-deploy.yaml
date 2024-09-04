@@ -58,7 +58,7 @@ jobs:
         echo $artifactName
         echo "Repository Name: $REPOSITORY_NAME"
         ch_application_name=$CH_APPLICATION_NAME
-        ch_application_name=${ch_application_name/\{version\}/v${{ inputs.majorVersion }} }
+        ch_application_name=${ch_application_name/\{version\}/v${{ inputs.majorVersion }}}
         ch_application_name=${ch_application_name/\{env\}/$CH_ENVIRONMENT}
         echo "CH Application Name: $ch_application_name"
         ${{vars.MVN_COMMAND}} mule:deploy -Danypoint.client_id="$CLIENT_ID" -Danypoint.client_secret="$CLIENT_SECRET" -Danypoint.grant_type="$GRANT_TYPE" -Dmule.artifact=$artifactName -Dmule.maven.plugin.version="$MULE_MAVEN_PLUGIN_VERSION" -Dch.uri="$CH_URI" -Dch.muleVersion="$CH_MULE_VERSION" -Dch.businessGroup="$CH_BUSINESS_GROUP" -Dch.applicationName="$ch_application_name" -Dch.environment="$CH_ENVIRONMENT" -Dch.region="$CH_REGION" -Dch.workers="$CH_WORKERS" -Dch.workerType="$CH_WORKER_TYPE" -Dch.objectStoreV2="$CH_OBJECT_STORE_V2"
