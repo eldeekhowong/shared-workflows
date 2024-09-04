@@ -22,9 +22,7 @@ jobs:
       run: |
         matrix=$(cat ./shared-workflows/configuration/Development/anypoint-deploy-configuration.json)
         ### Remove JSON line breaks ###
-        matrix="${matrix//'%'/'%25'}"
-        matrix="${matrix//$'\n'/'%0A'}"
-        matrix="${matrix//$'\r'/'%0D'}"
+        matrix="${matrix//$'\n'/''}"
         ### Remove JSON line breaks ###
         echo "anypoint-deploy-configuration.json: $matrix"
         echo "repositoryName: ${{github.event.repository.name}}"
