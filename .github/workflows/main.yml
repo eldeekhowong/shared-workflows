@@ -21,7 +21,7 @@ jobs:
       code-coverage-required: false #switch to true
 
   Develop-Merge:
-    if: ${{ GITHUB.base_ref == 'develop' && GITHUB.event.pull_request.merged == true}}
+#    if: ${{ GITHUB.base_ref == 'develop' && GITHUB.event.pull_request.merged == true}}
     uses: eldeekhowong/shared-workflows/.github/workflows/eits-build-deploy.yaml@main
     secrets: inherit
     with:
