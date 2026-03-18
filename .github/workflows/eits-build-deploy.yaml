@@ -27,7 +27,7 @@ on:
 
 jobs:
   Checkout-Repo:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout this repo
       if: ${{ inputs.branch == '' }}
@@ -49,7 +49,7 @@ jobs:
   Build-Artifact:
     if: ${{ inputs.build-deploy == 'build'}}
     needs: [Checkout-Repo]
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
     - name: Build with Maven
       run: ${{vars.MVN_COMMAND}} clean package -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
@@ -58,7 +58,7 @@ jobs:
   Build-Deploy-Artifact:
     if: ${{ inputs.build-deploy == 'deploy' }}
     needs: [Checkout-Repo]
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
     - name: Build and deploy to Artifactory
       run: ${{vars.MVN_COMMAND}} clean deploy -DskipTests -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
@@ -67,7 +67,7 @@ jobs:
   Tag-Artifact:
     if: ${{ inputs.build-deploy == 'deploy' }}
     needs: [Build-Deploy-Artifact]
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
     - name: Extract artifact version
       id: extract-artifact-version
