@@ -60,11 +60,24 @@ jobs:
 
   Build-Deploy-Artifact:
     if: ${{ inputs.build-deploy == 'deploy' }}
-    needs: [Checkout-Repo]
     runs-on: ubuntu-latest
     steps:
-    - name: List files in the repository
-      run: ls -a
+    - name: Checkout this repo
+      if: ${{ inputs.branch == '' }}
+      uses: actions/checkout@v4
+    - name: Checkout specific branch
+      if: ${{ inputs.branch != '' }}
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.branch }}
+    - name: Checkout EITS configuration settings
+      uses: actions/checkout@v4
+      with: 
+        repository: "eldeekhowong/shared-workflows"
+        path: "shared-workflows"
+        sparse-checkout: |
+          maven
+          configuration
     - name: Build and deploy to Artifactory
       run: ${{vars.MVN_COMMAND}} clean deploy -DskipTests -DcodeCoverageRequired=${{inputs.code-coverage-required}} --file pom.xml
 
