@@ -1,0 +1,13 @@
+name: Hello World
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  test-job:
+    name: Test Authentication to AWS
+    runs-on:
+      group: github_hosted_large_runners_static_ips
+    steps:
+      - name: Print a message
+        run: echo "Hello, World!"
